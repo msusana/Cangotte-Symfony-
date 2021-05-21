@@ -1,0 +1,39 @@
+<div class="card">
+   <div class="card-content">
+      <div class="row">
+         {{ form_start(form) }}
+         <div class="input-field col s12 l6">
+         {{ form_row(form.name, { "label" : "Votre Nom" }) }}
+         </div>
+         <div class="input-field col s12 l6">
+            {{ form_row(form.email, { "label" : "Votre Email" }) }}
+         </div>
+         <div class="input-field col s12 l8">
+         {% if not inputValue %}
+         {{ form_row(form.nameCampagne, { "label" : "Titre de votre campagne" }) }}
+         
+         {% else %}
+            {{ form_row(form.nameCampagne,
+             {'attr' : {'value' : inputValue, 
+            "label" : "Titre de votre campagne",
+            }
+         }) }}
+         {% endif %}
+         </div>
+         <div class="input-field col s12">
+            {# {{ form_label(form.contenuCampagne) }} #}
+            {{ form_widget(form.contenuCampagne, 
+            {'attr' : {'class' : 'materialize-textarea', 
+            'placeholder' : 'Décrivez à vos amis pourquoi vous faites une campagne'
+            }
+         }) }}
+         </div>
+         <div class="input-field col s12 l6">
+         {{ form_row(form.objectifCagnotte, { "label" : "Votre objectif en euros" }) }}
+         
+         </div>
+            <button  class="btn btn-large waves-effect waves-light pink lighten-1 col s12" style="margin-top: 20px;" type="submit" name="action">{{ button_label|default('Validez la campagne') }}</button>
+         {{ form_end(form) }}
+      </div>
+   </div>
+</div>
