@@ -1,5 +1,14 @@
 
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+  <div class="input-field col s6 ">
+            {{ form_label(form.name)}}
+            {{ form_widget(form.name)}}
+            <div class='error'>{{ form_errors(form.name)}}</div>
+         </div>
+                  <div class="input-field col s6 ">
+            {{ form_label(form.email)}}
+            {{ form_widget(form.email)}}
+            <div class='error'>{{ form_errors(form.email)}}</div>
+         </div>
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

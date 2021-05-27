@@ -14,12 +14,6 @@
         <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/materialize.min.css') }}"  media="screen,projection"/>
         <!--Custom styles-->
         <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/styles.css') }}"  media="screen,projection"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"> 
-   <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
 
         
     </head>
@@ -53,40 +47,49 @@
             </div>
         </nav>
     </div>
-        {% block body %}{% endblock %}
-        <footer class="page-footer teal">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Cagnot'Potes</h5>
-                    <p class="grey-text text-lighten-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo.</p>
+
+{% block body %}
+<div class="container">
+<div class="card">
+   <div class="card-content">
+      <div class="row">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
                 </div>
-                <div class="col l3 s12 offset-l3">
-                    <h5 class="white-text">Liens</h5>
-                    <ul class="footer-links">
-                        <li><a class="white-text" href="#!">Comment ça marche ?</a></li>
-                        <li><a class="white-text" href="{{ path('campagne_index') }}">Voir les campagnes</a></li>
-                        <li><a class="white-text" href="{{ path('campagne_new') }}">Créer une campagne</a></li>
-                    </ul>
+            {% endif %}
+
+            <h3 class="h3 mb-3 font-weight-normal center">Se connecter</h3>
+            <label for="inputEmail">Votre Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+            <label for="inputPassword">Votre mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+            >
+
+            {#
+                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                See https://symfony.com/doc/current/security/remember_me.html
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Remember me
+                    </label>
                 </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                Made with love by <a class="white-text" href="http://trombi.simplon-roanne.com/">Simplon Roanne</a>
-            </div>
-        </div>
-    </footer>
-    <!--JavaScript at end of body for optimized loading-->
-   
-    <script type="text/javascript" src="{{asset('assets/js/materialize.min.js')}}"></script>
-    <!--Init & custom scripts-->
-    <script type="text/javascript" src="{{asset('assets/js/scripts.js')}}"></script>
-            <script>
-                var simplemde = new SimpleMDE({ element: document.querySelector(".s") });
-            </script>
-    {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </body>
-</html>
+            #}
+
+            <button class="btn btn-lg btn-primary" type="submit">
+                Se connecter
+            </button>
+        </form>
+        </br>
+        <p> Vous n’avez pas de compte  ? <a href="{{ path('app_register') }}">Inscrivez-vous</a> </p>
+</div>
+{% endblock %}

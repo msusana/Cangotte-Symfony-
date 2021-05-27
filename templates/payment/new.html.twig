@@ -3,7 +3,6 @@
 {% block title %}New Payment{% endblock %}
 
 {% block body %}
-    <h1>Create new Payment</h1>
 <div class="parallax-container valign-wrapper">
         <div class="section no-pad-bot">
             <div class="container">
@@ -92,6 +91,33 @@
         // Stripe injects an iframe into the DOM
         card.mount("#card-element");
     </script>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=AZG8SSRJ-m_J5yuN11dlkG5mwd51BngNQzxKzJp4KrS4SovtQl2q5ps__LA7q452lHsOtVHhY8uitBfi&currency=EUR"> // Replace YOUR_CLIENT_ID with your sandbox client ID
+    </script>
+    <!-- Add the checkout buttons, set up the order and approve the order -->
+    <script>
+
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+    let montant = document.querySelector("#payment_amount").value
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: montant
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert('Transaction completed by ' + details.payer.name.given_name);
+            document.querySelector('#payment-form').submit()
+          });
+        }
+      }).render('#paypal-button-container'); // Display payment options on your web page
+    </script>
+
+
         {% endblock %}
 
 

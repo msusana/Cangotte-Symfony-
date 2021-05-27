@@ -40,14 +40,9 @@ class PaymentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $payment->getParticipantId()->setCampagneId($campagne);
-            \Stripe\Stripe::setApiKey('sk_test_51ItYGCKhlLJk2wgHv52DEGyqHx445wQzkuPt3k3Ef8KW0eICrP76yN9AhgHUKXfvNZzMYl5Vu6ThxIkSmAuhTLL800FD1FnXcz');
-            $paymentIntent = \Stripe\PaymentIntent::create([
-                'amount' => $payment->getAmount()*100,
-                'currency' => 'eur',
-            ]);
-            $output = [
-                'clientSecret' => $paymentIntent->client_secret,
-            ];
+                        
+            $this->stripeProcess($payment);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($payment);
             $entityManager->flush();
@@ -105,5 +100,15 @@ class PaymentController extends AbstractController
         }
 
         return $this->redirectToRoute('payment_index');
+    }
+    public function stripeProcess($payment){
+        \Stripe\Stripe::setApiKey('sk_test_51ItYGCKhlLJk2wgHv52DEGyqHx445wQzkuPt3k3Ef8KW0eICrP76yN9AhgHUKXfvNZzMYl5Vu6ThxIkSmAuhTLL800FD1FnXcz');
+        $paymentIntent = \Stripe\PaymentIntent::create([
+            'amount' => $payment->getAmount()*100,
+            'currency' => 'eur',
+        ]);
+        $output = [
+            'clientSecret' => $paymentIntent->client_secret,
+        ];
     }
 }

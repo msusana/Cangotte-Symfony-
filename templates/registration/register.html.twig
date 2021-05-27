@@ -14,12 +14,6 @@
         <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/materialize.min.css') }}"  media="screen,projection"/>
         <!--Custom styles-->
         <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/styles.css') }}"  media="screen,projection"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css"> 
-   <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
 
         
     </head>
@@ -53,40 +47,47 @@
             </div>
         </nav>
     </div>
-        {% block body %}{% endblock %}
-        <footer class="page-footer teal">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Cagnot'Potes</h5>
-                    <p class="grey-text text-lighten-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo.</p>
-                </div>
-                <div class="col l3 s12 offset-l3">
-                    <h5 class="white-text">Liens</h5>
-                    <ul class="footer-links">
-                        <li><a class="white-text" href="#!">Comment ça marche ?</a></li>
-                        <li><a class="white-text" href="{{ path('campagne_index') }}">Voir les campagnes</a></li>
-                        <li><a class="white-text" href="{{ path('campagne_new') }}">Créer une campagne</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                Made with love by <a class="white-text" href="http://trombi.simplon-roanne.com/">Simplon Roanne</a>
-            </div>
-        </div>
-    </footer>
-    <!--JavaScript at end of body for optimized loading-->
+
+{% block body %}
+<div class="container">
+<div class="card">
+   <div class="card-content">
+      <div class="row">
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <h3 class='center'>S'inscrire</h3>
    
-    <script type="text/javascript" src="{{asset('assets/js/materialize.min.js')}}"></script>
-    <!--Init & custom scripts-->
-    <script type="text/javascript" src="{{asset('assets/js/scripts.js')}}"></script>
-            <script>
-                var simplemde = new SimpleMDE({ element: document.querySelector(".s") });
-            </script>
-    {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </body>
-</html>
+    <div class='error'>{{ form_errors(registrationForm.password.first)}}</div>
+
+    {{ form_start(registrationForm) }}
+
+    {{ form_label(registrationForm.name,"Votre Nom" )}}
+    {{ form_widget(registrationForm.name)}}
+    <div class='error'>{{ form_errors(registrationForm.name)}}</div>
+
+    {{ form_label(registrationForm.email,"Votre Email" )}}
+    {{ form_widget(registrationForm.email)}}
+    <div class='error'>{{ form_errors(registrationForm.email)}}</div>
+    
+    <div class="col s12 m6">
+    {{ form_label(registrationForm.password.first)}}
+    {{ form_widget(registrationForm.password.first)}}
+    </div> 
+
+    <div class="col s12 m6">   
+       {{ form_label(registrationForm.password.second)}}
+    {{ form_widget(registrationForm.password.second)}}
+    </div>     
+
+
+        <button type="submit" class="btn">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+    </br>
+        <p> Vous avez déjà un compte ? <a href="{{ path('app_login') }}">connectez-vous</a> </p>
+      </div>
+   </div>
+</div>
+</div>
+{% endblock %}

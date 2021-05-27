@@ -24,6 +24,10 @@ class Payment
      *     value = 0,
      *     message = "Le montant doit être supérieur à 0"
      * )
+     * @Assert\LessThan(
+     *     value = 1000000000,
+     *     message = "Le montant doit être inferieur à 1.000.000.000"
+     * )
      */
     private $amount;
 

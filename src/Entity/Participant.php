@@ -23,6 +23,12 @@ class Participant
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre nom doit comporter au moins 2 des caractères",
+     *      maxMessage = "Votre nom ne peut pas comporter plus de 250 caractères"
+     * )
      */
     private $name;
 

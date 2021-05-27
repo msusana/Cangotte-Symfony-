@@ -1,18 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Campagne{% endblock %}
- {% block stylesheets %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">       
-    {% endblock %}
+
 
 
 {% block body %}
  <div class="parallax-container valign-wrapper">
         <div class="section no-pad-bot">
             <div class="container">
-                <h1 class="header center black-text light">{{ campagne.nameCampagne }}</h1>
+                <h1 class="header center black-text light white-text">{{ campagne.nameCampagne }}</h1>
                 <div class="row center">
-                    <h5 class="header col s12 black-text light">- Organisée par : {{ campagne.name }} -</h5>
+                    <h5 class="header col s12 black-text light white-text">- Organisée par : {{ campagne.name }} -</h5>
                 </div>
             </div>
         </div>
@@ -41,11 +39,10 @@
                     <div class="card-content">
                         <div class="input-field col s12 l6">
                          <form action="{{ path('payment_new', {'id': campagne.id})}}" method='POST'>
-                         <input  type="hidden" name='campagneId' value = '{{campagne.id}}'>
                             <label for="mount">Votre participation</label>
                             <input id="mount" type="number" name='amount' class="validate">
                         </div>
-                         <button type="submit" class="btn-large waves-effect waves-light pink lighten-1 col s12 l6">Participer</button>
+                         <button type="submit" class="btn-large waves-effect waves-light blue-grey lighten-1 col s12 l6">Participer</button>
                                 </form>
                         <div class="clearfix"></div>
                     </div>
@@ -58,7 +55,7 @@
             </div>
             <!--   Icon Section   -->
             <div class="row">
-                <div class="col s12 m6 l3 offset-l3">
+                <div class="col s12 l4 ">
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">person</i></div>
                         <h3 class="center">{{count}}</h3>
@@ -66,25 +63,28 @@
                     </div>
                 </div>
 
-                <div class="col s12 m6 l3">
+                <div class="col s12 l4">
                     <div class="icon-block center">
                         <div class="btn-large btn-floating white"><i class="material-icons teal-text">redeem</i></div>
                         <h3 class="center">{{totalAmount}}</h3>
                         <p class="light">euros récoltés</p>
                     </div>
                 </div>
+                <div class="col s12 l4">
+                    <div class="icon-block center">
+                        <div class="btn-large btn-floating white"><i class="material-icons teal-text">monetization_on</i></div>
+                        <h3 class="center">{{campagne.objectifCagnotte}}</h3>
+                        <p class="light">Objectif</p>
+                    </div>
+                </div>
             </div>
             <!-- Form section -->
-            <div class="row">
-                <form>
-                    <div class="input-field col s12">
-                        <label for="description">Description</label>
-                        <textarea id="description" class="materialize-textarea" readonly="readonly">{{ campagne.contenuCampagne }}</textarea>
-                    </div>
-                    <div class="input-field col s12 l6">
-                        <input id="goal" type="number" readonly="readonly" value="500">
-                        <label for="goal">Objectif</label>
-                    </div>
+            <div class="container center">
+            <div class="card">
+            <p class='teal-text'>{{ campagne.contenuCampagne }}</p>
+            </div>
+
+                     {% if (is_granted('IS_AUTHENTICATED_REMEMBERED')) and (user.id == campagne.user.id)  %}
                     <div class="col s12 l6 offset-l3">
                         <a href="{{ path('campagne_edit', {'id': campagne.id}) }}" class="btn btn-large waves-effect waves-light col s12">
                             Modifiez la campagne
@@ -95,8 +95,9 @@
                      </br>
                        {{ include('campagne/_delete_form.html.twig') }}
                     </div>
+                    {% endif %}
                   
-                </form>
+                
             </div>
             <!-- List -->
             <div class="row">
@@ -149,10 +150,7 @@
 
 
 
-   
-    {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>        
-        {% endblock %}
+  
     
 {% endblock %}
    

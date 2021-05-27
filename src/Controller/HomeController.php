@@ -17,7 +17,7 @@ class HomeController extends AbstractController
      * @Route("/", name="home")
      */
     public function index(CampagneRepository $campagneRepository, PaymentRepository $paymentRepository, ParticipantRepository $participantRepository): Response
-    {
+    { 
         $campagnes =  $campagneRepository->findBy([], [], 5 , 0);
         $participants = $participantRepository->findBy(['campagneId' =>$campagnes]);
 
